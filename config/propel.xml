@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<config>
+    <propel>
+        <database>
+            <connections>
+                <connection id="default">
+                    <adapter>mysql</adapter>
+                    <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
+                    <dsn>mysql:host=localhost;dbname=asociaciones</dsn>
+                    <user>root</user>
+                    <password></password>         
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>default</defaultConnection>
+        </runtime>
+        <generator>
+            <defaultConnection>default</defaultConnection>
+        </generator>
+    </propel>
+</config>

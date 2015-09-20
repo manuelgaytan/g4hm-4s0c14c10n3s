@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>    
+    <body>     
+        <p class="validateTips"></p>
+        <form>
+            <fieldset>
+                <input type="hidden" id="txtId">
+                <label for="Nombre">Nombre:</label>
+                <input type="text" id="txtNombre" class="text ui-widget-content ui-corner-all">
+                <label for="ApellidoPaterno">Apellido Paterno:</label>
+                <input type="text" id="txtApellidoPaterno" class="text ui-widget-content ui-corner-all">
+                <label for="ApellidoMaterno">Apellido Materno:</label>
+                <input type="text" id="txtApellidoMaterno" class="text ui-widget-content ui-corner-all">
+                <label for="FechaNacimiento">Fecha Nacimiento:</label>
+                <input type="text" id="txtFechaNacimiento" class="text ui-widget-content ui-corner-all">
+                <label for="Rfc">R.F.C.:</label>
+                <input type="text" id="txtRfc" class="text ui-widget-content ui-corner-all">
+                <label for="Curp">C.U.R.P.:</label>
+                <input type="text" id="txtCurp" class="text ui-widget-content ui-corner-all">
+                <label for="Domicilio">Domicilio:</label>
+                <input type="text" id="txtDomicilio" class="text ui-widget-content ui-corner-all">
+                <label for="EstadoCivil">Estado Civil:</label>
+                <input type="text" id="txtEstadoCivil" class="text ui-widget-content ui-corner-all">
+                <label for="CorreoElectronico">Correo Electrónico:</label>
+                <input type="text" id="txtCorreoElectronico" class="text ui-widget-content ui-corner-all">
+                <label for="Ocupacion">Ocupación:</label>
+                <input type="text" id="txtOcupacion" class="text ui-widget-content ui-corner-all">
+                <label for="QuienRecomienda">Quien Recomienda:</label>
+                <input type="text" id="txtQuienRecomienda" class="text ui-widget-content ui-corner-all">
+                <label for="Observaciones">Observaciones:</label>
+                <textarea rows="6" id="txtObservaciones" class="text ui-widget-content ui-corner-all"></textarea>
+                <!-- Allow form submission with keyboard without duplicating the dialog button 
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">-->
+                <input type="checkbox" id="chkAccesoWeb" class="ui-widget-content ui-corner-all"
+                       onchange="seleccionAccesoWeb()">Acceso Web<br>
+                <div id="divItemAccesoWeb">
+                    <input type="hidden" id="txtIdUsuario">
+                    <label for="Usuario">Usuario:</label>
+                    <input type="text" id="txtUsuario" class="text ui-widget-content ui-corner-all">
+                    <label for="Contrasena">Contraseña:</label>
+                    <input type="password" id="txtContrasena" class="text ui-widget-content ui-corner-all">
+                </div>
+            </fieldset>       
+        </form>
+    </body>
+</html>

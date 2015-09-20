@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>    
+    <body>     
+        <p class="validateTips"></p>
+        <form>
+            <fieldset>                
+                <input type="hidden" id="txtId">      
+                <input type="hidden" id="txtIdIntegrante">
+                <label for="Integrante">Integrante:</label><br>
+                <input type="text" id="txtIntegrante" class="text ui-widget-content ui-corner-all"
+                       readonly>
+                <input type="hidden" id="txtIdItem">
+                <label for="Nombre">Nombre:</label>
+                <input type="text" id="txtNombre" class="text ui-widget-content ui-corner-all"
+                       readonly>
+                <label for="Monto">Monto:</label>
+                <input type="text" id="txtMonto" class="text ui-widget-content ui-corner-all"
+                       align="right">
+                <label for="Fecha">Fecha:</label>
+                <input type="text" id="txtFecha" class="text ui-widget-content ui-corner-all">
+                <label for="Nota">Nota:</label><br>
+                <textarea rows="6" id="txtNota" class="text ui-widget-content ui-corner-all"></textarea>
+                <!-- Allow form submission with keyboard without duplicating the dialog button 
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">-->
+            </fieldset>       
+        </form>
+    </body>
+</html>

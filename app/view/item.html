@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>    
+    <body>     
+        <p class="validateTips"></p>
+        <form>
+            <fieldset>
+                <input type="hidden" id="txtId">
+                <label for="Proyecto">Proyecto:</label><br>
+                <select id="cmbProyecto" class="selectBox ui-widget-content ui-corner-all"/>
+                <label for="Nombre">Nombre:</label>
+                <input type="text" id="txtNombre" class="text ui-widget-content ui-corner-all">
+                <label for="Descripcion">Descripción:</label>
+                <textarea rows="6" id="txtDescripcion" class="text ui-widget-content ui-corner-all"></textarea>
+                <label for="Responsable">Responsable:</label>
+                <input type="text" id="txtResponsable" class="text ui-widget-content ui-corner-all">
+                <label for="Tipo">Tipo:</label><br>
+                <select id="cmbTipoItem" class="selectBox ui-widget-content ui-corner-all"
+                        onchange="seleccionTipoItem()">
+                    <option value="0">-- Selecciones un tipo de ítem --</option>
+                </select>
+                <div id="divItemAportacion">
+                    <input type="hidden" id="txtIdItemAportacion">
+                    <label for="Monto">Monto:</label>
+                    <input type="text" id="txtMonto" class="text ui-widget-content ui-corner-all"
+                           align="right">
+                    <label for="FechaInicio">Fecha Inicio:</label>
+                    <input type="text" id="txtFechaInicio" class="text ui-widget-content ui-corner-all">
+                    <label for="FechaFin">Fecha Fin:</label>
+                    <input type="text" id="txtFechaFin" class="text ui-widget-content ui-corner-all">
+                </div>
+                <div id="divItemRequisitos">
+                    <input type="hidden" id="txtIdItemRequisitos">
+                    <label for="FechaInicio">Fecha Inicio:</label>
+                    <input type="text" id="txtFechaInicio" class="text ui-widget-content ui-corner-all">
+                    <label for="FechaFin">Fecha Fin:</label>
+                    <input type="text" id="txtFechaFin" class="text ui-widget-content ui-corner-all">
+                    <label for="Tipo">Requisitos Disponibles:</label><br>
+                    <select id="lstRequisitosDisponibles" class="selectBox ui-widget-content ui-corner-all"/>
+                    <label for="Tipo">Requisitos:</label><br>
+                    <select id="lstRequisitos" class="selectBox ui-widget-content ui-corner-all"/>
+                </div>
+                <!-- Allow form submission with keyboard without duplicating the dialog button 
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">-->
+            </fieldset>       
+        </form>
+    </body>
+</html>

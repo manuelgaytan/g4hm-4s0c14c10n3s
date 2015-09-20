@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mostrar Avisos</title>                                
+        
+        <script type="text/javascript" src="../../vendor/jqGrid/js/jquery-1.11.0.min.js"></script>        
+        
+        <script type="text/javascript" src="../../vendor/simplebanner/js/jquery.simplebanner.js"></script>    
+        <link rel="stylesheet" type="text/css" href="../../vendor/simplebanner/css/jquery.simplebanner.css"/>        
+        
+        <script type="text/javascript" src="../js/global.js"></script>
+        <script type="text/javascript" src="../js/mostrarAvisos.js"></script>
+        
+        <link rel="stylesheet" href="../css/asociaciones.css">
+        
+        <link href='http://fonts.googleapis.com/css?family=Michroma|Libre+Baskerville|Pacifico' rel='stylesheet' type='text/css'>
+        
+        <style>
+            ul li div {
+                padding: 25px 60px 25px 60px 
+            }
+            .simpleBanner {
+                margin-right: auto;
+                margin-left: auto;
+            }
+		</style>
+    </head>
+    <body>
+        <div class="simpleBanner">
+            <div class="bannerListWpr">
+                <ul id="bannerList" class="bannerList">
+                </ul>
+            </div>
+            <div id="flechaPrevio" class="bannerControlsWpr bannerControlsPrev"><div class="bannerControls"></div></div>
+            <div id="flechaSiguiente" class="bannerControlsWpr bannerControlsNext"><div class="bannerControls"></div></div>
+        </div>
+    </body>
+</html>

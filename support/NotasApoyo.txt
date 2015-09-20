@@ -1,0 +1,110 @@
+Instalar composer, en Mac OS X en la terminal:
+    curl -sS https://getcomposer.org/installer | php
+
+Mover el archivo composer descargado al PATH:
+    sudo mv composer.phar /usr/bin/
+
+Todos los comandos se ejecutan a nivel directorio raíz de la aplicación:
+
+Para colocar el proxy en Git Bash
+	git config --global http.proxy http://webproxy.smb.com:8080
+Para colocar el proxy en el Command
+	set HTTP_PROXY=http://webproxy.smb.com:8080
+
+Crear el archivo composer.json adentro del directorio raíz de la aplicación con el siguiente contenido:
+	{
+		"require": {
+			"propel/propel": "~2.0@dev",
+			"monolog/monolog": "~1.3"
+		}
+	}
+
+Ejecutar el comando: 
+	composer install
+
+Para ejecutar el comando propel, se tiene que hacer la acción que corresponda:
+    $ cd myproject
+    $ vendor/bin/propel
+o
+    $ cd myproject
+    $ ln -s vendor/bin/propel propel
+o
+    export PATH=$PATH:/path/to/vendor/bin/
+o (para windows)
+    set PATH=%PATH%;C:/path/to/vendor/bin/
+
+Agregar permisos de ejecución al binario de propel:
+    chmod +x /Applications/XAMPP/htdocs/asociaciones/vendor/propel/propel/bin/propel
+o
+    chmod 777 /Applications/XAMPP/htdocs/asociaciones/vendor/propel/propel/bin/propel
+
+Para generar el schema.xml
+	propel reverse --output-dir="config" "mysql:host=localhost;dbname=asociaciones;user=root;password="
+o
+    propel reverse --output-dir="config" "mysql:host=127.0.0.1;dbname=asociaciones;user=root;password="
+o
+    propel reverse --output-dir="config" "mysql:host=gahm.com.mx;dbname=gahm_com_mx_asociaciones;user=gahm__asociacion;password=notiene"
+
+Para generar el diretorio generated-classes
+	propel model:build --schema-dir=config
+Donde dentro del directorio config está el archivo propel.xml así como el schema.xml
+
+Si se requiere modificar el schema.xml y volver a generar el modelo ejecutar:
+	propel model:build --schema-dir=config
+
+Para utilizar el modelo debemos de agregar en el archivo composer.json el classmap:
+	{
+		"require": {
+			"propel/propel": "~2.0@dev",
+			"monolog/monolog": "~1.3"
+		},
+		"autoload": {
+		    "classmap": ["generated-classes/"]	
+		}
+	}
+Con la finalidad de que esten disponibles las clases del modelo.
+Hay que ejecutar este comando para que haga efecto lo anterior:
+	composer update
+    
+Ahora con tan solo incluir está línea de código, estarán disponibles las clases del modelo:
+	// setup the autoloading
+	require_once '../vendor/autoload.php';
+
+Para generar el archivo de conexión a la base de datos ejecutamos:
+	propel config:convert
+Nos generará un archivo llamado config.php el cuál nos permitirá incluirlo dentro de cada clase que utilice el modelo:
+	// setup Propel
+	require_once '../generated-conf/config.php'; 
+
+Al final queda así un archivo utilizado:
+	<?php
+
+	// setup the autoloading
+	require_once '../vendor/autoload.php';	//van los .. si es que esta en un subnivel de la raiz.
+
+	// setup Propel
+	require_once '../generated-conf/config.php';	//van los .. si es que esta en un subnivel de la raiz.
+
+	$asociacion = new Asociaciones();
+	$asociacion->setNombre("Asociación Departamentos Rayón 71");
+	$asociacion->setContacto("Lic. Ignacio Morales Huerta");
+
+	echo $asociacion->toJSON();
+	echo "guardar: " . $asociacion->save();
+
+
+Al agregar un campo contemplar lo siguiente:
+    Modificar el script de base de datos (scrip.sql).
+    Ejecutar la modificación en la base de datos.
+    Ejecutar el comando para que a través de la base de datos se genere el schema.xml
+        propel reverse --output-dir="config" "mysql:host=localhost;dbname=asociaciones;user=root;password="
+    Regenerar el modelo apartir de schema.xml
+        propel model:build --schema-dir=config      (antes: --input-dir=config)
+    Con la finalidad de que esten disponibles las clases del modelo. ejecutar:
+        composer update
+    En el archvio js del módulo al que se agrego la columna, modificar en la tabla (jqgrid):
+        colNames
+        colModel
+    En el archivo html del ítem a trabjar agregar el campo y colocar un id.
+    La función mostrarEditar() agregar el campo para realizar el mapeo
+    

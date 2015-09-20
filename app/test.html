@@ -1,0 +1,144 @@
+    <!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Insert title here</title>
+            <link rel="stylesheet" type="text/css" href="../vendor/jqGrid/css/ui.jqgrid.css">
+            <script type="text/javascript" src="../vendor/jqGrid/js/jquery-1.11.0.min.js"></script>        
+            <script type="text/javascript" src="../vendor/jqGrid/js/i18n/grid.locale-es.js"></script>
+            <script type="text/javascript" src="../vendor/jqGrid/js/jquery.jqGrid.min.js"></script>
+
+            <link rel="stylesheet" href="../vendor/jquery-ui/jquery-ui.css">
+            <script src="../vendor/jquery-ui/jquery-ui.js"></script>
+
+    <style>
+                    li {
+                    list-style-type: none;
+        }
+
+
+     </style>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+    jQuery("#list4").jqGrid({
+                    datatype: "local",
+                    height: 250,
+                    colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+                    colModel:[
+                                   {name:'id',index:'id', width:60, sorttype:"int"},
+                                   {name:'invdate',index:'invdate', width:90, sorttype:"date"},
+                                   {name:'name',index:'name', width:100},
+                                   {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
+                                   {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},                             
+                                   {name:'total',index:'total', width:80,align:"right",sorttype:"float"},                        
+                                   {name:'note',index:'note', width:150, sortable:false}                   
+                    ],
+                    pager: '#pager',
+                    multiselect: true,
+                    caption: "Manipulating Array Data"
+    }).navGrid("#pager",{edit:false,add:false,del:false});
+
+
+
+    jQuery("#list5").jqGrid({
+                    datatype: "local",
+                    height: 250,
+                    colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+                    colModel:[
+                                   {name:'id',index:'id', width:60, sorttype:"int"},
+                                   {name:'invdate',index:'invdate', width:90, sorttype:"date"},
+                                   {name:'name',index:'name', width:100},
+                                   {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
+                                   {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},                             
+                                   {name:'total',index:'total', width:80,align:"right",sorttype:"float"},                        
+                                   {name:'note',index:'note', width:150, sortable:false}                   
+                    ],
+                    multiselect: true,
+                                    pager: '#pager5',
+                    caption: "Manipulating Array Data"
+    }).navGrid("#pager5",{edit:false,add:false,del:false});
+
+
+    jQuery("#list6").jqGrid({
+                    datatype: "local",
+                    height: 575,
+                    colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+                    colModel:[
+                                   {name:'id',index:'id', width:60, sorttype:"int"},
+                                   {name:'invdate',index:'invdate', width:90, sorttype:"date"},
+                                   {name:'name',index:'name', width:100},
+                                   {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
+                                   {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},                             
+                                   {name:'total',index:'total', width:80,align:"right",sorttype:"float"},                        
+                                   {name:'note',index:'note', width:150, sortable:false}                   
+                    ],
+                    multiselect: true,
+                                    pager: '#pager6',
+                    caption: "Manipulating Array Data"
+    }).navGrid("#pager6",{edit:false,add:false,del:false});
+
+    var mydata = [
+                                   {id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                                   {id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                                   {id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+                                   {id:"4",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                                   {id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                                   {id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+                                   {id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+                                   {id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+                                   {id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
+                                   ];
+
+
+
+    for(var i=0;i<=mydata.length;i++){
+                    jQuery("#list4").jqGrid('addRowData',i+1,mydata[i]);
+                    jQuery("#list5").jqGrid('addRowData',i+1,mydata[i]);
+                    jQuery("#list6").jqGrid('addRowData',i+1,mydata[i]);
+    }
+
+    });
+    </script>
+        <style>
+            #testA{
+                color: green;       
+            }
+            #testB{
+                color: red;       
+            }
+        </style>
+    </head>
+    <body>
+        <ul style="float:left;">
+            <li>
+                <div>
+                    <table id="list4"/>
+                    <div id="pager"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <table id="list5"></table>
+                    <div id="pager5"/>
+                </div>
+            </li>
+        </ul>
+        <ul style="float:left;">
+            <li>
+                <div>
+                    <table id="list6"/>
+                    <div  id="pager6"/>
+                </div>
+            </li>
+        </ul>
+        
+        <span id="testA">text ant6es<span id="testB"/>
+ If it's red, it's HTML. Green is XHTML.
+            <span style="color:blue"/>test
+</span>
+    </body>
+    </html>
+
