@@ -5,7 +5,7 @@ session_unset();
 // destroy the session 
 session_destroy();
 
-$newURL = "http://localhost/asociaciones/index.html";
+$newURL = "https://$_SERVER[HTTP_HOST]/asociaciones/index.php";
 header('Location: '.$newURL);
 die();
 ?>
