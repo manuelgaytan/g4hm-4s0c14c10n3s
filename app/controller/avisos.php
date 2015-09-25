@@ -31,7 +31,9 @@ switch ( $_GET["a"] ){
         }
         echo $items->toJSON();
     break;
-    case "q":        
+    case "q":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         $items = AvisoQuery::create()->find();
         foreach ($items as $item) {
             $item->getAsociacion();
@@ -39,6 +41,8 @@ switch ( $_GET["a"] ){
         echo $items->toJSON();
     break;
     case "g":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -52,6 +56,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "u":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["objeto"] == null ){
             throw new Exception("No esta definido el parametro 'objeto'");
             return;
@@ -70,6 +76,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "d":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -81,6 +89,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "a":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["objeto"] == null ){
             throw new Exception("No esta definido el parametro 'objeto'");
             return;

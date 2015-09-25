@@ -9,6 +9,8 @@ if( $_GET["a"] == null ){
     return;
 }
 
+$salt = "As0c14c10n3s";
+
 switch ( $_GET["a"] ){
     case "v":
         if( $_GET["objeto"] == null ){
@@ -22,7 +24,7 @@ switch ( $_GET["a"] ){
             return $acceso;
         }
         $usuario = UsuarioQuery::create()->findOneByUsuario($item->getUsuario());
-        if( $item->getContrasena() == $usuario->getContrasena() ){
+        if( crypt( $item->getContrasena(), $salt ) == $usuario->getContrasena() ){
             $acceso = 1;
             crearSesion( $usuario );
             $usuario->setFechaUltimoAcceso( new DateTime() );
@@ -101,6 +103,8 @@ switch ( $_GET["a"] ){
         }
         $item = new Usuario();
         $item->importFrom("JSON", $_GET["objeto"]);
+        $crypted = crypt( $item->getContrasena(), $salt );
+        $item->setContrasena( $crypted );
         //TODO: Validar que no exista el mismo usuario
         $item->setId( null );// asegurarse que no se tiene Id.
         if( !( $item == null ) ){            

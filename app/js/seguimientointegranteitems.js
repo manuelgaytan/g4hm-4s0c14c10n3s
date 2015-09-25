@@ -1,5 +1,6 @@
 var idIntegrante = undefined;
 var datosGrafica = null;
+var datosGraficaGeneral = null;
 var PANELES = (function() {
      var private = {
          'ASOCIACION': 0,
@@ -243,6 +244,13 @@ $( document ).ready( function(){
         onClickButton: verGrafica, 
         position:"last"
     });
+    jQuery("#tablaIntegranteItemsAportacion").jqGrid('navButtonAdd','#piePaginaTablaIntegranteItemsAportacion',{
+        id:"btnVerGraficaGeneral",
+        caption:"Ver Gráfica General", 
+        buttonicon:"ui-icon-add", 
+        onClickButton: verGraficaGeneral, 
+        position:"last"
+    });
     
     inicializaAcordion();
     
@@ -250,7 +258,14 @@ $( document ).ready( function(){
     $( "#divGrafico" ).hide();
 });   
 
+function verGraficaGeneral(){
+}
+
 function verGrafica(){
+    graficar(datosGrafica[0].Item.ItemAportacion);
+}
+
+function graficar(itemAportacion){
     if( datosGrafica == null  || datosGrafica[0] == null){
         return;
     }
@@ -278,7 +293,6 @@ function verGrafica(){
         ]
     }
     
-    var itemAportacion = datosGrafica[0].Item.ItemAportacion;
     var iteraciones = NaN;
     var fechaInicio = crearFecha( itemAportacion.FechaInicio );
     var fechaFin = crearFecha( itemAportacion.FechaFin );
@@ -544,7 +558,7 @@ function invocarMostrarIntegranteItems(){
         */
         mostrarMensajeError("Lo sentimos, por el momento esta opción no está implementada.");
     }
-    // ir por los datos a la base de datos
+    // ir por los datos a la base de datos de las aportaciones del usuario
     $.ajax({
         url: url,
         data: { a: accion,
@@ -557,6 +571,24 @@ function invocarMostrarIntegranteItems(){
             if( item.Tipo == CONSTANTES.get("APORTACION") ){
                 if( colocarDatosIntegranteItemsAportacion(resultado) ){
                     irPanel( PANELES.get("INTEGRANTE_ITEMS") );
+                }
+            }
+        }
+    });
+    // ir por los datos a la base de datos de las aportaciones en general
+    accion = "qg";
+    $.ajax({
+        url: url,
+        data: { a: accion,
+                idIntegrante: idIntegrante,
+                idItem: idItem },
+        success:function( resultado ){
+            if( validaExcepcion( resultado ) ){
+                mostrarMensajeExcepcion( resultado );    
+            }
+            if( item.Tipo == CONSTANTES.get("APORTACION") ){
+                if( colocarDatosIntegrantesItemsAportacion(resultado) ){
+                    irPanel( PANELES.get("INTEGRANTES_ITEMS") );
                 }
             }
         }
@@ -644,6 +676,18 @@ function colocarDatosIntegranteItemsAportacion(resultado){
         for(var i=0;i<resultadoObject.Aportacions.length;i++){
             $("#tablaIntegranteItemsAportacion").jqGrid('addRowData',i+1,resultadoObject.Aportacions[i]);
         }
+        return true;
+    }
+}
+
+function colocarDatosIntegrantesItemsAportacion(resultado){
+    var resultadoObject = JSON.parse( resultado );
+    if( resultadoObject == null || resultadoObject.length == 0 ||
+        resultadoObject.Aportacions == null || resultadoObject.Aportacions.length == 0 ){
+        mostrarMensaje("No existe elementos para mostrar.", "Aviso");
+        return false;
+    }else{
+        datosGraficaGeneral = resultadoObject.Aportacions;        
         return true;
     }
 }

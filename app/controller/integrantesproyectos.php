@@ -14,7 +14,9 @@ if( $_GET["a"] == null ){
 }
 
 switch ( $_GET["a"] ){
-    case "q":        
+    case "q":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -27,7 +29,9 @@ switch ( $_GET["a"] ){
             echo null;
         }
     break;
-    case "qi":        
+    case "qi":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -43,7 +47,9 @@ switch ( $_GET["a"] ){
             echo null;
         }
     break;
-    case "qp":        
+    case "qp":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -84,6 +90,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "u":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;

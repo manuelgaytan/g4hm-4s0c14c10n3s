@@ -1,6 +1,8 @@
 <?php
 // validar sesion
 require_once 'validarSesion.php';
+// validar sesion
+require_once 'validarRootAdmin.php';
 // setup the autoloading
 require_once '../../vendor/autoload.php';
 // setup Propel

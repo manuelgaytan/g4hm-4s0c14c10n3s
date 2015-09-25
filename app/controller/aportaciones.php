@@ -39,7 +39,33 @@ switch ( $_GET["a"] ){
             echo $items;
         }
     break;
+    case "qg":        
+        if( $_GET["idIntegrante"] == null ){
+            throw new Exception("No esta definido el parametro 'idIntegrante'");
+            return;
+        }
+        if( $_GET["idItem"] == null ){
+            throw new Exception("No esta definido el parametro 'idItem'");
+            return;
+        }
+        
+        $items = AportacionQuery::create()
+                    ->filterByFkItem($_GET["idItem"])
+                    ->find();
+        if( !( $items == null ) ){
+            foreach ($items as $item) {
+                $item->getIntegrante();
+                $item->getItem();
+                $item->getItem()->getItemAportacion();
+            }
+            echo $items->toJSON();
+        }else{
+            echo $items;
+        }
+    break;
     case "u":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -70,6 +96,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "a":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["objeto"] == null ){
             throw new Exception("No esta definido el parametro 'objeto'");
             return;

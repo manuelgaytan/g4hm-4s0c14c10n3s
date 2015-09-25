@@ -7,12 +7,14 @@
 
         <script type="text/javascript" src="js/global.js"></script>
         <script type="text/javascript" src="js/inicio.js"></script>
+        <!-- adorno navide&ntilde;o
         <script type="text/javascript" src="js/efectoNieve.js"></script>
+        -->
         
         <link rel="stylesheet" href="css/asociaciones.css">
         <link rel="stylesheet" href="css/menu.css">
         
-        <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <header>

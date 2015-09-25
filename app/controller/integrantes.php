@@ -11,6 +11,8 @@ if( $_GET["a"] == null ){
     return;
 }
 
+$salt = "As0c14c10n3s";
+
 switch ( $_GET["a"] ){
     case "qu":
         $items = IntegranteQuery::create()->findByFkUsuario($_SESSION["usuario-id"]);
@@ -19,7 +21,9 @@ switch ( $_GET["a"] ){
         }
         echo $items->toJSON();
     break;
-    case "q":        
+    case "q":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         $items = IntegranteQuery::create()->find();
         foreach ($items as $item) {
             $item->getUsuario();
@@ -27,6 +31,8 @@ switch ( $_GET["a"] ){
         echo $items->toJSON();
     break;
     case "g":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -41,6 +47,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "u":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["objeto"] == null ){
             throw new Exception("No esta definido el parametro 'objeto'");
             return;
@@ -55,6 +63,8 @@ switch ( $_GET["a"] ){
             $usuario = new Usuario();
             $usuario->importFrom("JSON", json_encode( $objItem->Usuario ) );
             if( !( $usuario == null ) ){// trae usuario
+                $crypted = crypt( $usuario->getContrasena(), $salt );
+                $usuario->setContrasena( $crypted );
                 $usuarioAnterior = null;
                 if( !( $usuario->getId() == null) ){// tiene usuario anterior
                     $usuarioAnterior = UsuarioQuery::create()->findOneById( $usuario->getId() );                    
@@ -64,6 +74,7 @@ switch ( $_GET["a"] ){
                     $usuarioAnterior->save();
                     $item->setUsuario( $usuarioAnterior );
                 }else{// se crea un usuario nuevo
+                    //TODO: Validar que no exista el mismo usuario
                     $usuario->setId( null );// asegurarse que no se tiene Id.
                     $usuario->save();
                     $item->setUsuario( $usuario );
@@ -81,6 +92,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "d":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["id"] == null ){
             throw new Exception("No esta definido el parametro 'id'");
             return;
@@ -92,6 +105,8 @@ switch ( $_GET["a"] ){
         }
     break;
     case "a":
+        // validar sesion
+        require_once 'validarRootAdmin.php';
         if( $_GET["objeto"] == null ){
             throw new Exception("No esta definido el parametro 'objeto'");
             return;
@@ -104,6 +119,8 @@ switch ( $_GET["a"] ){
         if( $objItem->Usuario != null ){
             $usuario = new Usuario();
             $usuario->importFrom("JSON", json_encode( $objItem->Usuario ));
+            $crypted = crypt( $usuario->getContrasena(), $salt );
+            $usuario->setContrasena( $crypted );
             $usuario->setId( null );// asegurarse que no se tiene Id.
             if( !( $usuario == null ) ){
                 $usuario->save();
