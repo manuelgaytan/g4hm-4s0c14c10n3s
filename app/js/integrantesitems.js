@@ -231,7 +231,7 @@ $( document ).ready( function(){
     });
     jQuery("#tablaIntegranteItemsAportacion").jqGrid('navButtonAdd','#piePaginaTablaIntegranteItemsAportacion',{
         id:"btnEliminarIntegranteItems",
-        caption:"Eliminar Integrante", 
+        caption:"Eliminar Integrante-Ítem", 
         buttonicon:"ui-icon-add", 
         onClickButton: invocaEliminarIntegranteItems, 
         position:"last"

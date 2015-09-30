@@ -23,7 +23,7 @@ switch ( $_GET["a"] ){
         if( $item == null ){
             return $acceso;
         }
-        $usuario = UsuarioQuery::create()->findOneByUsuario($item->getUsuario());
+        $usuario = UsuarioQuery::create()->findOneByUsuario($item->getUsuario());    
         if( crypt( $item->getContrasena(), $salt ) == $usuario->getContrasena() ){
             $acceso = 1;
             crearSesion( $usuario );

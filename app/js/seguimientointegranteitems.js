@@ -259,14 +259,20 @@ $( document ).ready( function(){
 });   
 
 function verGraficaGeneral(){
+    datosGrafica[0].Item.ItemAportacion;
 }
 
 function verGrafica(){
-    graficar(datosGrafica[0].Item.ItemAportacion);
+    if( datosGrafica == null  || 
+        datosGrafica[0] == null ||
+        datosGrafica[0].Item == null ){
+        return;
+    }
+    graficar(datosGrafica[0].Item.ItemAportacion, datosGrafica.slice( 0 ));
 }
 
-function graficar(itemAportacion){
-    if( datosGrafica == null  || datosGrafica[0] == null){
+function graficar(itemAportacion, aportaciones){
+    if( itemAportacion == null || aportaciones == null ){
         return;
     }
     var lineChartData = {
@@ -308,8 +314,7 @@ function graficar(itemAportacion){
         // aplica grafico por mes
         meses = dias / 30;
         iteraciones = Math.round( meses );
-        
-        var aportaciones = datosGrafica.slice( 0 );
+                
         var fechaIteracion = fechaInicio;
         var acumulaAportaciones = 0;
         for(var i = 0; i < iteraciones; i++){
@@ -363,7 +368,7 @@ function graficar(itemAportacion){
     }
     
     lineChartData.labels = etiquetas;
-    lineChartData.datasets[0].data = acompleta( etiquetas, datosGrafica[0].Item.ItemAportacion.Monto, iteraciones );
+    lineChartData.datasets[0].data = acompleta( etiquetas, itemAportacion.Monto, iteraciones );
     lineChartData.datasets[1].data = items;
     
     $( "#divGrafico" ).show();
