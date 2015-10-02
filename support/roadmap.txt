@@ -1,0 +1,6 @@
+Root Map software Asociaciones:
+
+1. Cambiar de contraseña de root.
+2. Bloquear usuario a los 5 intentos fallidos.
+3. Agregar un captcha.
+4. 

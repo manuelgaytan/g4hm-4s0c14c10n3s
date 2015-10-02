@@ -45,6 +45,7 @@ CREATE TABLE Usuario
     contrasena VARCHAR(20) NOT NULL,
     fecha_ultimo_acceso DATE,
     root_asociacion BOOL,
+    intentos_fallidos INT(1) NOT NULL,
     PRIMARY KEY (id)
 );
 
