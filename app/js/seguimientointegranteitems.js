@@ -1,6 +1,10 @@
 var idIntegrante = undefined;
 var datosGrafica = null;
 var datosGraficaGeneral = null;
+var itemAportacionGeneral = null;
+var chart = null;
+var chartGeneral = null;
+
 var PANELES = (function() {
      var private = {
          'ASOCIACION': 0,
@@ -259,7 +263,16 @@ $( document ).ready( function(){
 });   
 
 function verGraficaGeneral(){
-    datosGrafica[0].Item.ItemAportacion;
+    if( datosGraficaGeneral == null ||
+        itemAportacionGeneral == null ){
+        return;
+    }
+    if( chartGeneral == null ){
+        var datosParaGraficar = obtenerDatosParaGraficar(itemAportacionGeneral, datosGraficaGeneral);
+        graficarGeneral( datosParaGraficar );
+    }else{
+        mostrarGraficoGeneral();
+    }
 }
 
 function verGrafica(){
@@ -268,36 +281,20 @@ function verGrafica(){
         datosGrafica[0].Item == null ){
         return;
     }
-    graficar(datosGrafica[0].Item.ItemAportacion, datosGrafica.slice( 0 ));
+    if( chart == null ){
+        var datosParaGraficar = obtenerDatosParaGraficar(datosGrafica[0].Item.ItemAportacion, datosGrafica.slice( 0 ));
+        graficar( datosParaGraficar );
+    }else{
+        mostrarGrafico();        
+    }
 }
 
-function graficar(itemAportacion, aportaciones){
+function obtenerDatosParaGraficar(itemAportacion, aportaciones){
     if( itemAportacion == null || aportaciones == null ){
         return;
     }
-    var lineChartData = {
-        datasets : [
-            {
-                label: "Ideal",
-                fillColor : "rgba(220,220,220,0.2)",
-                strokeColor : "rgba(220,220,220,1)",
-                pointColor : "rgba(220,220,220,1)",
-                pointStrokeColor : "#fff",
-                pointHighlightFill : "#fff",
-                pointHighlightStroke : "rgba(220,220,220,1)",
-                
-            },
-            {
-                label: "Aportaciones",
-                fillColor : "rgba(151,187,205,0.2)",
-                strokeColor : "rgba(151,187,205,1)",
-                pointColor : "rgba(151,187,205,1)",
-                pointStrokeColor : "#fff",
-                pointHighlightFill : "#fff",
-                pointHighlightStroke : "rgba(151,187,205,1)",
-            }
-        ]
-    }
+    
+    var datosParaGraficar = new Object();
     
     var iteraciones = NaN;
     var fechaInicio = crearFecha( itemAportacion.FechaInicio );
@@ -367,14 +364,99 @@ function graficar(itemAportacion, aportaciones){
         iteraciones = Math.round( dias );
     }
     
-    lineChartData.labels = etiquetas;
-    lineChartData.datasets[0].data = acompleta( etiquetas, itemAportacion.Monto, iteraciones );
-    lineChartData.datasets[1].data = items;
+    datosParaGraficar.etiquetas = etiquetas;
+    datosParaGraficar.serie1 = acompleta( etiquetas, itemAportacion.Monto, iteraciones );
+    datosParaGraficar.serie2 = items;
+
+    return datosParaGraficar;
+}
+
+function graficar(datosParaGraficar){    
+    var lineChartData = {
+        datasets : [
+            {
+                label: "Ideal",
+                fillColor : "rgba(220,220,220,0.2)",
+                strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(220,220,220,1)",
+                
+            },
+            {
+                label: "Aportaciones",
+                fillColor : "rgba(151,187,205,0.2)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(151,187,205,1)",
+            }
+        ]
+    }
+    lineChartData.labels = datosParaGraficar.etiquetas;
+    lineChartData.datasets[0].data = datosParaGraficar.serie1;
+    lineChartData.datasets[1].data = datosParaGraficar.serie2;
     
+    mostrarGrafico();
+    if( chart == null ){           
+        var ctx = document.getElementById("grafico").getContext("2d");
+        chart = new Chart(ctx).Line(lineChartData,{responsive:true});
+    }
+}
+
+function graficarGeneral(datosParaGraficar){    
+    var lineChartData = {
+        datasets : [
+            {
+                label: "Ideal",
+                fillColor : "rgba(220,220,220,0.2)",
+                strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(220,220,220,1)",
+                
+            },
+            {
+                label: "Aportaciones",
+                fillColor : "rgba(151,187,205,0.2)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(151,187,205,1)",
+            }
+        ]
+    }
+    lineChartData.labels = datosParaGraficar.etiquetas;
+    lineChartData.datasets[0].data = datosParaGraficar.serie1;
+    lineChartData.datasets[1].data = datosParaGraficar.serie2;
+    
+    mostrarGraficoGeneral();
+    if( chartGeneral == null ){           
+        var ctx = document.getElementById("graficoGeneral").getContext("2d");
+        chartGeneral = new Chart(ctx).Line(lineChartData,{responsive:true});
+    }
+}
+
+function mostrarGrafico(){    
     $( "#divGrafico" ).show();
-    $( "#divTabla" ).hide();    
-    var ctx = document.getElementById("grafico").getContext("2d");
-    window.myLine = new Chart(ctx).Line(lineChartData,{responsive:true});
+    $( "#divGraficoGeneral" ).hide();
+    $( "#divTabla" ).hide(); 
+}
+
+function mostrarGraficoGeneral(){
+    $( "#divGrafico" ).hide();
+    $( "#divGraficoGeneral" ).show();
+    $( "#divTabla" ).hide(); 
+}
+
+function mostrarTabla(){
+    $( "#divGrafico" ).hide();
+    $( "#divGraficoGeneral" ).hide();
+    $( "#divTabla" ).show(); 
 }
 
 function crearFecha( fechaString ){
@@ -452,15 +534,6 @@ function acompleta( etiquetas, monto, iteraciones ){
         }
         datos.push( aportacion );
         elemento = etiquetas[i];
-    }
-    return datos;
-}
-
-function generarDatos(){
-    datos = []
-    for ( var i = 0; i<16; i++ ) 
-    {
-        datos[ i ] = 10000 * i + 10000;
     }
     return datos;
 }
@@ -592,9 +665,23 @@ function invocarMostrarIntegranteItems(){
                 mostrarMensajeExcepcion( resultado );    
             }
             if( item.Tipo == CONSTANTES.get("APORTACION") ){
-                if( colocarDatosIntegrantesItemsAportacion(resultado) ){
-                    irPanel( PANELES.get("INTEGRANTES_ITEMS") );
-                }
+                colocarDatosIntegrantesItemsAportacion(resultado);
+            }
+        }
+    });
+    // ir por los datos a la base de datos por el item aportacion en general
+    accion = "qgia";
+    $.ajax({
+        url: url,
+        data: { a: accion,
+                idIntegrante: idIntegrante,
+                idItem: idItem },
+        success:function( resultado ){
+            if( validaExcepcion( resultado ) ){
+                mostrarMensajeExcepcion( resultado );    
+            }
+            if( item.Tipo == CONSTANTES.get("APORTACION") ){
+                colocarDatosItemAportacionGeneral(resultado);
             }
         }
     });
@@ -685,14 +772,27 @@ function colocarDatosIntegranteItemsAportacion(resultado){
     }
 }
 
-function colocarDatosIntegrantesItemsAportacion(resultado){
+function colocarDatosIntegrantesItemsAportacion(resultado){    
     var resultadoObject = JSON.parse( resultado );
-    if( resultadoObject == null || resultadoObject.length == 0 ||
-        resultadoObject.Aportacions == null || resultadoObject.Aportacions.length == 0 ){
+    if( resultadoObject == null || resultadoObject.length == 0 ){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        datosGraficaGeneral = resultadoObject.Aportacions;        
+        datosGraficaGeneral = new Array();        
+        for(var i=0;i<resultadoObject.length;i++){
+            datosGraficaGeneral.push( JSON.parse( resultadoObject[i] ) );
+        }
+        return true;
+    }
+}
+
+function colocarDatosItemAportacionGeneral(resultado){    
+    var resultadoObject = JSON.parse( resultado );
+    if( resultadoObject == null || resultadoObject.length == 0 ){
+        mostrarMensaje("No existe elementos para mostrar.", "Aviso");
+        return false;
+    }else{
+        itemAportacionGeneral = resultadoObject;
         return true;
     }
 }

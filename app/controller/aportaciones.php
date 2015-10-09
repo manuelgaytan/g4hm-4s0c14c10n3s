@@ -39,29 +39,61 @@ switch ( $_GET["a"] ){
             echo $items;
         }
     break;
-    case "qg":        
-        if( $_GET["idIntegrante"] == null ){
-            throw new Exception("No esta definido el parametro 'idIntegrante'");
-            return;
-        }
+    case "qg":
         if( $_GET["idItem"] == null ){
             throw new Exception("No esta definido el parametro 'idItem'");
             return;
         }
         
         $items = AportacionQuery::create()
-                    ->filterByFkItem($_GET["idItem"])
+                    ->orderByFecha()
                     ->find();
         if( !( $items == null ) ){
+            $aportaciones = array();           
+            $mesAnterior = null;
+            $mesActual = null;
+            $itemAportacion = null;
             foreach ($items as $item) {
-                $item->getIntegrante();
-                $item->getItem();
-                $item->getItem()->getItemAportacion();
-            }
-            echo $items->toJSON();
+                $mesActual = extraeUltimoDiaMes($item->getFecha());
+                if( $mesAnterior == null || !($mesActual == $mesAnterior) ){                    
+                    $itemAportacion = new Aportacion();
+                    $itemAportacion->setMonto( $item->getMonto() );
+                    $itemAportacion->setFecha( $mesActual );                                        
+                    $aportaciones[] = $itemAportacion->toJSON();                    
+                }else{
+                    $itemAportacion->setMonto( $itemAportacion->getMonto() + $item->getMonto() );
+                }
+                $mesAnterior = $mesActual;
+            }            
+            echo json_encode( $aportaciones );
         }else{
-            echo $items;
+            echo null;
         }
+    break;
+    case "qgia":
+        if( $_GET["idItem"] == null ){
+            throw new Exception("No esta definido el parametro 'idItem'");
+            return;
+        }        
+        // obtiene el item aportacion
+        $item = ItemQuery::create()
+                    ->findOneById($_GET["idItem"]);
+        $itemAportacionGeneral = $item->getItemAportacion();    
+        // obtiene el numero de integrantes que ha aportado
+        $aportacionesAgrupadasPorIntegrante = AportacionQuery::create()
+                    ->filterByFkItem($_GET["idItem"])
+                    ->groupByFkIntegrante()
+                    ->find();
+        if( $aportacionesAgrupadasPorIntegrante != null ){
+            $numIntegrantes = 0;
+            foreach ($aportacionesAgrupadasPorIntegrante as $aportacion) {
+                $numIntegrantes++;
+            }
+            //echo "Num. Integrantes: " . $numIntegrantes . "<br>";
+            //$numIntegrantes = 40;
+        }
+        $itemAportacionGeneral->setMonto( $itemAportacionGeneral->getMonto() * $numIntegrantes );
+        echo $itemAportacionGeneral->toJSON();        
     break;
     case "u":
         // validar sesion
@@ -111,5 +143,9 @@ switch ( $_GET["a"] ){
         }
         echo $item->toJSON();
     break;
+}
+
+function extraeUltimoDiaMes( $fecha ){    
+    return date("Y-m-t", strtotime($fecha));
 }
 ?>
