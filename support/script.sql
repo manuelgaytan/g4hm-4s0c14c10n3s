@@ -1,4 +1,4 @@
-/*DROP DATABASE asociaciones;*/
+DROP DATABASE asociaciones;
 
 CREATE DATABASE asociaciones
     DEFAULT CHARACTER SET utf8
@@ -238,48 +238,133 @@ ALTER TABLE IntegrantesAsociacionIntegrantesIntegrantesRequisitos ADD FOREIGN KE
 ALTER TABLE IntegrantesAsociacionIntegrantesIntegrantesRequisitos ADD FOREIGN KEY fk_estado_requisito_idxfk (fk_estado_requisito) REFERENCES EstadoRequisito (id);
 */
 
-INSERT INTO Asociacion (id, nombre, contacto)
-	VALUES (1, 'Azcapotzalco Unido A.C.', 'Lic. Ignacion Huerta');
-INSERT INTO Asociacion (id, nombre, contacto)
-	VALUES (2, 'Asamblea de Barrios A.C.', 'Sra. Beatriz');
-
-INSERT INTO Usuario (id, usuario, contrasena)
-	VALUES (1, 'test', 'test');
-INSERT INTO Usuario (id, usuario, contrasena, root_asociacion)
-	VALUES (2, 'admin', 'notiene', true);
-INSERT INTO Usuario (id, usuario, contrasena)
-	VALUES (3, 'root', 'notiene');
-
-INSERT INTO Integrante (id, nombre, apellido_paterno, fk_usuario)
-	VALUES (1, 'Manuel','GaytÃ¡n', 1);
-INSERT INTO Integrante (id, nombre, apellido_paterno, fk_usuario)
-	VALUES (2, 'Israel','Miranda', NULL);
-INSERT INTO Integrante (id, nombre, apellido_paterno, fk_usuario)
-	VALUES (3, 'Daniel','Miranda', NULL);
-INSERT INTO Integrante (id, nombre, apellido_paterno, fk_usuario)
-	VALUES (4, 'Ignacio','Morales', 2);
-
-INSERT INTO Integrante_Asociacion (id, fk_asociacion, fk_integrante)
-	VALUES (1, 1, 1);
-INSERT INTO Integrante_Asociacion (id, fk_asociacion, fk_integrante)
-	VALUES (2, 1, 2);
-INSERT INTO Integrante_Asociacion (id, fk_asociacion, fk_integrante)
-	VALUES (3, 1, 3);
-INSERT INTO Integrante_Asociacion (id, fk_asociacion, fk_integrante)
-	VALUES (4, 2, 2);
-INSERT INTO Integrante_Asociacion (id, fk_asociacion, fk_integrante)
-	VALUES (5, 2, 3);
-
-INSERT INTO Proyecto (id, nombre, contacto, fecha_alta, fk_asociacion)
-	VALUES (1, 'Departamentos Rayon 71', 'Lic. Ignacio Huerta', '2014-10-30', 1);
-INSERT INTO Proyecto (id, nombre, contacto, fecha_alta, fk_asociacion)
-	VALUES (2, 'Departamentos San Isidro', 'Lic. Ignacio Huerta', '2014-10-29', 1);
-INSERT INTO Proyecto (id, nombre, contacto, fecha_alta, fk_asociacion)
-	VALUES (3, 'Departamentos General Anaya', 'Sra. Beatriz', '2013-02-14', 2);
-INSERT INTO Proyecto (id, nombre, contacto, fecha_alta, fk_asociacion)
-	VALUES (4, 'Apoyo a la Vivienda', 'Lic. DÃ¡vila', '2014-08-01', 2);
-
 INSERT INTO Tipo_Item
 	VALUES (1, 'AportaciÃ³n');
 INSERT INTO Tipo_Item
 	VALUES (2, 'Requisitos');
+
+
+INSERT INTO Asociacion (id, nombre, contacto)
+	VALUES (1, 'Azcapotzalco Unido A.C.', 'Lic. Ignacion Huerta');
+
+INSERT INTO Proyecto (id, nombre, contacto, fecha_alta, fk_asociacion)
+	VALUES (1, 'Departamentos Rayon 71', 'Lic. Ignacio Huerta', '2014-10-30', 1);
+
+insert into usuario (id, usuario,contrasena) values (1,'cosorio','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (2,'gdeciga','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (3,'shurtado','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (4,'maldana','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (5,'pandrade','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (6,'rcalderon','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (7,'gcastizo','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (8,'icontreras','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (9,'a cornish','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (10,'gcruz','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (11,'mdavila','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (12,'fflores','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (13,'oflores','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (14,'sgarcia','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (15,'mgaytan','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (16,'mgonsalez','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (17,'ahurtado','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (18,'churtado','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (19,'ichavarria','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (20,'cchavarria','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (21,'amendoza','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (22,'omelin','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (23,'gmiramar','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (24,'dmiranda','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (25,'imiranda','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (26,'emiranda','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (27,'jortega','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (28,'pordonez','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (29,'ljimenez','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (30,'eperez','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (31,'arueda','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (32,'ctorres','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (33,'mtorres','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (34,'svasquez','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (35,'jvasquez','AsiFueLIEbV46');
+insert into usuario (id, usuario,contrasena) values (36,'igonzalez','AsiFueLIEbV46');
+
+
+
+INSERT INTO Usuario (id, usuario, contrasena, root_asociacion)
+	VALUES (37, 'admin', 'notiene', true);
+INSERT INTO Usuario (id, usuario, contrasena)
+	VALUES (38, 'root', 'notiene');
+
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (1,1,'Carmen','Osorio');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (2,2,'Gabriela','Deciga');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (3,3,'Sergio','Hurtado');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (4,4,'Mario','Aldana');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (5,5,'Paola ','Andrade');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (6,6,'Rodrigo','Calderon');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (7,7,'Guilermina','Castizo');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (8,8,'Ivan','Contreras');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (9,9,'Adriana',' Cornish');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (10,10,'Guadalupe','Cruz');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (11,11,'Maribel','Davila');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (12,12,'Fernanda','Flores');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (13,13,'Oscar','Flores');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (14,14,'Silvia','Garcia');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (15,15,'Manuel','Gaytan');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (16,16,'Marisol','Gonsalez');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (17,17,'Alejandro','Hurtado');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (18,18,'Claudia','Hurtado');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (19,19,'Irene','Chavarria');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (20,20,'Carlos','Chavarria');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (21,21,'Ambrosio','Mendoza');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (22,22,'Oralia','Melin');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (23,23,'Gabriela','Miramar');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (24,24,'Daniel','Miranda');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (25,25,'Israel','Miranda');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (26,26,'Enrique','Miranda');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (27,27,'Janet','Ortega');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (28,28,'Pamela','Ordonez');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (29,29,'Leticia','Jimenez');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (30,30,'Enrique','Perez');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (31,31,'Arnoldo','Rueda');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (32,32,'Claudia','Torres');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (33,33,'Maria','Torres');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (34,34,'Simon','Vasquez');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (35,35,'Joel','Vasquez');
+insert into integrante (id, fk_usuario,nombre, apellido_paterno) values (36,36,'Irma','Gonzalez');
+
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 1,1);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 2,2);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 3,3);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 4,4);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 5,5);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 6,6);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 7,7);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 8,8);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 9,9);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 10,10);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 11,11);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 12,12);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 13,13);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 14,14);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 15,15);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 16,16);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 17,17);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 18,18);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 19,19);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 20,20);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 21,21);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 22,22);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 23,23);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 24,24);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 25,25);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 26,26);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 27,27);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 28,28);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 29,29);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 30,30);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 31,31);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 32,32);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 33,33);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 34,34);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 35,35);
+INSERT INTO Integrante_Asociacion (fk_asociacion, id, fk_integrante) VALUES (1, 36,36);
+

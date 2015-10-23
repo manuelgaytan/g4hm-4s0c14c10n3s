@@ -501,10 +501,14 @@ function colocarDatosIntegrantes(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
+        var datos = new Array();
         for(var i=0;i<resultadoObject.IntegranteAsociacions.length;i++){
-            $("#tablaIntegrantes").jqGrid('addRowData',i+1,resultadoObject.IntegranteAsociacions[i].Integrante);
-        }
-        return true;
+            datos.push( resultadoObject.IntegranteAsociacions[i].Integrante );
+        }        
+        $("#tablaIntegrantes").jqGrid('setGridParam', {data: datos});
+        $("#tablaIntegrantes")[0].refreshIndex();
+        $("#tablaIntegrantes").trigger("reloadGrid");        
+        return true;        
     }
 }
 
