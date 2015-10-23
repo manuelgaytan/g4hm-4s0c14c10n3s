@@ -46,6 +46,7 @@ switch ( $_GET["a"] ){
         }
         
         $items = AportacionQuery::create()
+                    ->filterByFkItem($_GET["idItem"])
                     ->orderByFecha()
                     ->find();
         if( !( $items == null ) ){
@@ -53,18 +54,23 @@ switch ( $_GET["a"] ){
             $mesAnterior = null;
             $mesActual = null;
             $itemAportacion = null;
-            foreach ($items as $item) {
+            foreach ($items as $item) {                
                 $mesActual = extraeUltimoDiaMes($item->getFecha());
                 if( $mesAnterior == null || !($mesActual == $mesAnterior) ){                    
+                    if( !($mesAnterior == null) ){
+                        $aportaciones[] = $itemAportacion->toJSON();  
+                    }
                     $itemAportacion = new Aportacion();
                     $itemAportacion->setMonto( $item->getMonto() );
-                    $itemAportacion->setFecha( $mesActual );                                        
-                    $aportaciones[] = $itemAportacion->toJSON();                    
-                }else{
+                    $itemAportacion->setFecha( $mesActual );                                                                              
+                }else{                    
                     $itemAportacion->setMonto( $itemAportacion->getMonto() + $item->getMonto() );
                 }
                 $mesAnterior = $mesActual;
-            }            
+            }
+            if( !($mesAnterior == null) ){
+                $aportaciones[] = $itemAportacion->toJSON();  
+            }
             echo json_encode( $aportaciones );
         }else{
             echo null;
@@ -79,6 +85,7 @@ switch ( $_GET["a"] ){
         $item = ItemQuery::create()
                     ->findOneById($_GET["idItem"]);
         $itemAportacionGeneral = $item->getItemAportacion();    
+    /*
         // obtiene el numero de integrantes que ha aportado
         $aportacionesAgrupadasPorIntegrante = AportacionQuery::create()
                     ->filterByFkItem($_GET["idItem"])
@@ -90,8 +97,11 @@ switch ( $_GET["a"] ){
                 $numIntegrantes++;
             }
             //echo "Num. Integrantes: " . $numIntegrantes . "<br>";
-            //$numIntegrantes = 40;
+    */
+            $numIntegrantes = 40;
+    /*
         }
+    */
         $itemAportacionGeneral->setMonto( $itemAportacionGeneral->getMonto() * $numIntegrantes );
         echo $itemAportacionGeneral->toJSON();        
     break;
