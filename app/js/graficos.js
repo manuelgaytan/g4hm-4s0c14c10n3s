@@ -52,7 +52,10 @@ $( document ).ready( function(){
             root: "Asociacions"
         },
         multiselect: false,
-        shrinkToFit: false
+        shrinkToFit: false,
+        loadComplete: function(data) {
+            automatizarSeleccion( "tablaAsociaciones", invocarMostrarProyectos );
+        }
     });
     jQuery("#tablaAsociaciones").jqGrid('setGridWidth','100%');
     jQuery("#tablaAsociaciones").jqGrid('navGrid','#piePaginaTablaAsociaciones',{edit:false,add:false,del:false,search:true,refresh:false});
@@ -493,33 +496,8 @@ function acompleta( etiquetas, monto, iteraciones ){
     return datos;
 }
 
-function invocarMostrarAsociaciones(){
-    removerElementosTabla("tablaAsociaciones");
-    var id = obtenerIDObjetoTablaIntegrantes();
-    if( id == null ){
-        mostrarMensajeError("Primero debe de seleccionar un elemento de la tabla");
-        return;
-    }
-    // ir por los datos a la base de datos
-    $.ajax({
-        url:"../controller/seguimientointegranteitems.php",
-        data: { a: "qa",
-                id: id },
-        success:function( resultado ){
-            if( validaExcepcion( resultado ) ){
-                mostrarMensajeExcepcion( resultado );    
-            }
-            if( colocarDatosAsociaciones(resultado) ){
-                irPanel( PANELES.get("INTEGRANTE") );
-                automatizarSeleccion( "tablaAsociaciones", invocarMostrarProyectos );
-            }            
-        }
-    });
-}
-
 function invocarMostrarProyectos(){
     removerElementosTabla("tablaProyectos");
-    //$("#tablaIntegrantesProyectos").jqGrid('setGridState', 'visible');
     var id = obtenerIDObjetoTablaAsociaciones();
     if( id == null ){
         mostrarMensajeError("Primero debe de seleccionar un elemento de la tabla");
@@ -536,6 +514,7 @@ function invocarMostrarProyectos(){
             }
             if( colocarDatosProyectos(resultado) ){
                 irPanel( PANELES.get("PROYECTO") );
+                automatizarSeleccion( "tablaProyectos", invocarMostrarItems );
             }
         }
     });
@@ -543,7 +522,6 @@ function invocarMostrarProyectos(){
 
 function invocarMostrarItems(){
     removerElementosTabla("tablaItems");
-    //$("#tablaIntegrantes").jqGrid('setGridState', 'visible');
     var id = obtenerIDObjetoTablaProyectos();
     if( id == null ){
         mostrarMensajeError("Primero debe de seleccionar un elemento de la tabla");
@@ -560,6 +538,7 @@ function invocarMostrarItems(){
             }
             if( colocarDatosItems(resultado) ){
                 irPanel( PANELES.get("ITEMS_PROYECTO") );
+                automatizarSeleccion( "tablaItems", invocarMostrarIntegranteItems );
             }            
         }
     });
@@ -567,7 +546,6 @@ function invocarMostrarItems(){
 
 function invocarMostrarIntegranteItems(){
     removerElementosTabla("tablaIntegranteItemsAportacion");
-    var idIntegrante = obtenerIDObjetoTablaIntegrantes();
     var idItem = obtenerIDObjetoTablaItems();
     var item = obtenerObjetoTablaItems();
     if( item == null ){
@@ -608,7 +586,6 @@ function invocarMostrarIntegranteItems(){
     $.ajax({
         url: url,
         data: { a: accion,
-                idIntegrante: idIntegrante,
                 idItem: idItem },
         success:function( resultado ){
             if( validaExcepcion( resultado ) ){
@@ -624,7 +601,6 @@ function invocarMostrarIntegranteItems(){
     $.ajax({
         url: url,
         data: { a: accion,
-                idIntegrante: idIntegrante,
                 idItem: idItem },
         success:function( resultado ){
             if( validaExcepcion( resultado ) ){
@@ -656,20 +632,12 @@ function obtenerIDObjetoTablaAsociaciones(){
     return obtenerIDObjetoTabla('tablaAsociaciones');
 }
 
-function obtenerIDObjetoTablaIntegrantes(){
-    return obtenerIDObjetoTabla("tablaIntegrantes");
-}
-
 function obtenerIDObjetoTablaProyectos(){
     return obtenerIDObjetoTabla('tablaProyectos');
 }
 
 function obtenerIDObjetoTablaItems(){
     return obtenerIDObjetoTabla('tablaItems');
-}
-
-function obtenerObjetoTablaIntegrantes(){
-    return obtenerObjetoTabla('tablaIntegrantes');
 }
 
 function obtenerObjetoTablaItems(){
@@ -687,10 +655,7 @@ function colocarDatosAsociaciones(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.IntegranteAsociacions.length;i++){
-            $("#tablaAsociaciones").jqGrid('addRowData',i+1,resultadoObject.IntegranteAsociacions[i].Asociacion);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaAsociaciones",resultadoObject.IntegranteAsociacions, "Asociacion");
     }
 }
 
@@ -701,10 +666,7 @@ function colocarDatosProyectos(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.Proyectos.length;i++){
-            $("#tablaProyectos").jqGrid('addRowData',i+1,resultadoObject.Proyectos[i]);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaProyectos",resultadoObject.Proyectos);
     }
 }
 
@@ -715,10 +677,7 @@ function colocarDatosItems(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.Items.length;i++){
-            $("#tablaItems").jqGrid('addRowData',i+1,resultadoObject.Items[i]);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaItems",resultadoObject.Items);
     }
 }
 
@@ -730,14 +689,7 @@ function colocarDatosIntegranteItemsAportacion(resultado){
         return false;
     }else{
         datosGrafica = resultadoObject.Aportacions;
-        var datos = new Array();
-        for(var i=0;i<resultadoObject.Aportacions.length;i++){
-            datos.push( resultadoObject.Aportacions[i] );
-        }        
-        $("#tablaIntegranteItemsAportacion").jqGrid('setGridParam', {data: datos});
-        $("#tablaIntegranteItemsAportacion")[0].refreshIndex();
-        $("#tablaIntegranteItemsAportacion").trigger("reloadGrid");
-        return true;
+        return colocarDatosEnTabla("tablaIntegranteItemsAportacion",resultadoObject.Aportacions);
     }
 }
 

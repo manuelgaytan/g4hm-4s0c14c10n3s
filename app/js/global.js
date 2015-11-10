@@ -569,3 +569,18 @@ function obtenerDatos( arreglo, propiedad, cadenaVacia, acumula ){
     }
     return datos;
 }
+
+function colocarDatosEnTabla(idTabla, origen, propiedad){
+    var datos = new Array();
+    for(var i=0;i<origen.length;i++){
+        if( !(propiedad == null) ){
+                datos.push( origen[i][propiedad] );
+        }else{
+            datos.push( origen[i] );
+        }
+    }        
+    $("#"+idTabla).jqGrid('setGridParam', {data: datos});
+    $("#"+idTabla)[0].refreshIndex();
+    $("#"+idTabla).trigger("reloadGrid");
+    return true;
+}
