@@ -806,10 +806,7 @@ function colocarDatosAsociaciones(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.IntegranteAsociacions.length;i++){
-            $("#tablaAsociaciones").jqGrid('addRowData',i+1,resultadoObject.IntegranteAsociacions[i].Asociacion);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaAsociaciones",resultadoObject.IntegranteAsociacions,"Asociacion");
     }
 }
 
@@ -820,10 +817,7 @@ function colocarDatosProyectos(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.IntegranteProyectos.length;i++){
-            $("#tablaProyectos").jqGrid('addRowData',i+1,resultadoObject.IntegranteProyectos[i].Proyecto);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaProyectos",resultadoObject.IntegranteProyectos,"Proyecto");
     }
 }
 
@@ -834,10 +828,7 @@ function colocarDatosItems(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.Items.length;i++){
-            $("#tablaItems").jqGrid('addRowData',i+1,resultadoObject.Items[i]);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaItems",resultadoObject.Items);
     }
 }
 
@@ -849,10 +840,7 @@ function colocarDatosIntegranteItemsAportacion(resultado){
         return false;
     }else{
         datosGrafica = resultadoObject.Aportacions;
-        for(var i=0;i<resultadoObject.Aportacions.length;i++){
-            $("#tablaIntegranteItemsAportacion").jqGrid('addRowData',i+1,resultadoObject.Aportacions[i]);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaIntegranteItemsAportacion",resultadoObject.Aportacions);;
     }
 }
 

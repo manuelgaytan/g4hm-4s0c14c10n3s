@@ -247,10 +247,7 @@ function colocarDatos(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.IntegranteAsociacions.length;i++){
-            $("#tablaIntegrantesAsociaciones").jqGrid('addRowData',i+1,resultadoObject.IntegranteAsociacions[i].Integrante);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaIntegrantesAsociaciones", resultadoObject.IntegranteAsociacions, "Integrante");
     }
 }
 

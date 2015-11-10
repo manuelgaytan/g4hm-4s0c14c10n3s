@@ -323,10 +323,7 @@ function colocarDatosProyectos(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.Proyectos.length;i++){
-            $("#tablaProyectos").jqGrid('addRowData',i+1,resultadoObject.Proyectos[i]);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaProyectos",resultadoObject.Proyectos);
     }
 }
 
@@ -337,10 +334,7 @@ function colocarDatosIntegrantes(resultado){
         mostrarMensaje("No existe elementos para mostrar.", "Aviso");
         return false;
     }else{
-        for(var i=0;i<resultadoObject.IntegranteProyectos.length;i++){
-            $("#tablaIntegrantesProyectos").jqGrid('addRowData',i+1,resultadoObject.IntegranteProyectos[i].Integrante);
-        }
-        return true;
+        return colocarDatosEnTabla("tablaIntegrantesProyectos",resultadoObject.IntegranteProyectos,"Integrante");
     }
 }
 
