@@ -476,14 +476,22 @@ function labelFunctionTipo (cellvalue, options, rowObject)
 // label function moneda
 function labelFunctionMoneda (cellvalue, options, rowObject)
 {
-    if( extractObject(rowObject,options.colModel.name) !=  null &&
-        !isNaN( Number(extractObject(rowObject,options.colModel.name)) ) ){
-        return Number(extractObject(rowObject,options.colModel.name)).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    var valor = extractObject(rowObject,options.colModel.name);
+    if( valor !=  null &&
+        !isNaN( Number(valor) ) ){
+        return Number(valor).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     }
     return "";
 }
 
-
+// label function moneda
+function formatearNumeroAMoneda(valor)
+{
+    if( valor !=  null ){
+        return "$" + Number(valor).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+    return "";
+}
 
 /******************************************************************************
     Funciones genericas.

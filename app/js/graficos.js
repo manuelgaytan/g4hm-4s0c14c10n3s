@@ -5,6 +5,7 @@ var datosGraficaComparativa = null;
 var itemAportacionGeneral = null;
 var chart = null;
 var chartGeneral = null;
+var chartComparativo = null;
 
 var PANELES = (function() {
      var private = {
@@ -18,6 +19,9 @@ var PANELES = (function() {
         get: function(name) { return private[name]; }
     };
 })();
+
+Chart.defaults.global.tooltipTemplate = "<%if (label){%><%=label%>: <%}%><%=formatearNumeroAMoneda(value)%>";
+Chart.defaults.global.multiTooltipTemplate = "<%=formatearNumeroAMoneda(value)%>";
 
 $( document ).ready( function(){
     // valida que haya una sesion valida
@@ -234,7 +238,7 @@ function verGraficaComparativa(){
     if( datosGraficaComparativa == null ){
         return;
     }
-    if( chart == null ){
+    if( chartComparativo == null ){
         var datosParaGraficar = obtenerDatosParaGraficarComparativo(datosGraficaComparativa);
         graficarComparativo( datosParaGraficar );
     }else{
@@ -360,9 +364,9 @@ function graficarComparativo(datosParaGraficar){
     barChartData.datasets[0].data = datosParaGraficar.serie1;    
     
     mostrarSeccion("divGraficoComparativo");
-    if( chart == null ){
+    if( chartComparativo == null ){
         var ctx = document.getElementById("graficoComparativo").getContext("2d");
-        chart = new Chart(ctx).Bar(barChartData,{responsive:true});
+        chartComparativo = new Chart(ctx).Bar(barChartData,{responsive:true});
     }
 }
 
