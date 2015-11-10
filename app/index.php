@@ -57,8 +57,9 @@
                             echo "<li id=\"integrantesAsociaciones\"><a href='#'><span>Integrantes-Asociaciones</span></a></li>";
                             echo "<li id=\"integrantesProyectos\"><a href='#'><span>Integrantes-Proyectos</span></a></li>";
                             echo "<li id=\"integrantesItems\"><a href='#'><span>Integrantes-Ítems</span></a></li>";
+                            echo "<li id=\"graficos\"><a href='#'><span>Gráficos</span></a></li>";
                         }
-                        if( $_SESSION["root"] == false ){
+                        if( $_SESSION["root"] == false && $_SESSION["root-asociacion"] == false ){
                             echo "<li id=\"seguimientoIntegranteItems\"><a href='#'><span>Seguimiento Integrante-Ítems</span></a></li>";
                         }                                
                         if( $_SESSION["root"] == false ){

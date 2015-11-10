@@ -14,6 +14,25 @@ if( $_GET["a"] == null ){
 }
 
 switch ( $_GET["a"] ){
+    case "qall":        
+        if( $_GET["idItem"] == null ){
+            throw new Exception("No esta definido el parametro 'idItem'");
+            return;
+        }
+        $items = AportacionQuery::create()
+                    ->filterByFkItem($_GET["idItem"])
+                    ->find();
+        if( !( $items == null ) ){
+            foreach ($items as $item) {
+                $item->getIntegrante();
+                $item->getItem();
+                $item->getItem()->getItemAportacion();
+            }
+            echo $items->toJSON();
+        }else{
+            echo $items;
+        }
+    break;
     case "q":        
         if( $_GET["idIntegrante"] == null ){
             throw new Exception("No esta definido el parametro 'idIntegrante'");

@@ -68,6 +68,9 @@ function abrirPantalla(opcion){
         case "seguimientoIntegranteItems":
             cargarPantallaPrincipal("view/seguimientoIntegranteItems.html");
         break;
+        case "graficos":
+            cargarPantallaPrincipal("view/graficos.html");
+        break;
     }
 }
 
