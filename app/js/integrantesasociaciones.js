@@ -39,7 +39,10 @@ $( document ).ready( function(){
         jsonReader: { 
             root: "Asociacions"
         },
-        shrinkToFit: false
+        shrinkToFit: false,
+        loadComplete: function(data) {
+            automatizarSeleccion( "tablaAsociaciones", invocarMostrarIntegrantes );
+        }
     });
     jQuery("#tablaAsociaciones").jqGrid('setGridWidth','100%');
     jQuery("#tablaAsociaciones").jqGrid('navGrid','#piePaginaTablaAsociaciones',{edit:false,add:false,del:false,search:true,refresh:false});

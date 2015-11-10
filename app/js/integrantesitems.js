@@ -42,7 +42,10 @@ $( document ).ready( function(){
             root: "Asociacions"
         },
         multiselect: false,
-        shrinkToFit: false
+        shrinkToFit: false,
+        loadComplete: function(data) {
+            automatizarSeleccion( "tablaAsociaciones", invocarMostrarIntegrantes );
+        }
     });
     jQuery("#tablaAsociaciones").jqGrid('setGridWidth','100%');
     jQuery("#tablaAsociaciones").jqGrid('navGrid','#piePaginaTablaAsociaciones',{edit:false,add:false,del:false,search:true,refresh:false});
@@ -371,6 +374,7 @@ function invocarMostrarIntegrantes(){
             }
             if( colocarDatosIntegrantes(resultado) ){
                 irPanel( PANELES.get("INTEGRANTE") );
+                automatizarSeleccion( "tablaIntegrantes", invocarMostrarProyectos );
             }            
         }
     });
@@ -396,6 +400,7 @@ function invocarMostrarProyectos(){
             }
             if( colocarDatosProyectos(resultado) ){
                 irPanel( PANELES.get("PROYECTO") );
+                automatizarSeleccion( "tablaProyectos", invocarMostrarItems );
             }            
         }
     });
@@ -420,6 +425,7 @@ function invocarMostrarItems(){
             }
             if( colocarDatosItems(resultado) ){
                 irPanel( PANELES.get("ITEMS_PROYECTO") );
+                automatizarSeleccion( "tablaItems", invocarMostrarIntegranteItems );
             }            
         }
     });
