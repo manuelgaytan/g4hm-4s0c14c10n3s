@@ -1,6 +1,7 @@
 var idIntegrante = undefined;
 var datosGrafica = null;
 var datosGraficaGeneral = null;
+var datosGraficaComparativa = null;
 var itemAportacionGeneral = null;
 var chart = null;
 var chartGeneral = null;
@@ -22,6 +23,10 @@ var PANELES = (function() {
 $( document ).ready( function(){
     // valida que haya una sesion valida
     validarSesion();
+    
+    $( "#btnRegresar" ).click( mostrarTabla );
+    $( "#btnRegresarGraficoGeneral" ).click( mostrarTabla );
+    $( "#btnRegresarGraficoComparativo" ).click( mostrarTabla );    
     
     jQuery("#tablaIntegrantes").jqGrid({
         url:'../controller/integrantes.php?a=qu',
@@ -255,11 +260,18 @@ $( document ).ready( function(){
         onClickButton: verGraficaGeneral, 
         position:"last"
     });
+    jQuery("#tablaIntegranteItemsAportacion").jqGrid('navButtonAdd','#piePaginaTablaIntegranteItemsAportacion',{
+        id:"btnVerGraficaComparativa",
+        caption:"Ver Gráfica Comparativa", 
+        buttonicon:"ui-icon-add", 
+        onClickButton: verGraficaComparativa, 
+        position:"last"
+    });
     
     inicializaAcordion();
     
-    ajusteTamanos();
-    $( "#divGrafico" ).hide();
+    mostrarTabla();
+    ajusteTamanos();    
 });   
 
 function verGraficaGeneral(){
@@ -271,7 +283,7 @@ function verGraficaGeneral(){
         var datosParaGraficar = obtenerDatosParaGraficar(itemAportacionGeneral, datosGraficaGeneral);
         graficarGeneral( datosParaGraficar );
     }else{
-        mostrarGraficoGeneral();
+        mostrarSeccion("divGraficoGeneral");
     }
 }
 
@@ -285,8 +297,44 @@ function verGrafica(){
         var datosParaGraficar = obtenerDatosParaGraficar(datosGrafica[0].Item.ItemAportacion, datosGrafica.slice( 0 ));
         graficar( datosParaGraficar );
     }else{
-        mostrarGrafico();        
+        mostrarSeccion("divGrafico");
     }
+}
+
+function verGraficaComparativa(){
+    if( datosGraficaComparativa == null ){
+        return;
+    }
+    if( chart == null ){
+        var datosParaGraficar = obtenerDatosParaGraficarComparativo(datosGraficaComparativa, obtenerIDObjetoTablaIntegrantes());
+        graficarComparativo( datosParaGraficar );
+    }else{
+        mostrarSeccion("divGraficoComparativo");
+    }
+}
+
+function obtenerDatosParaGraficarComparativo(aportaciones, idIntegrante){
+    if( aportaciones == null ){
+        return;
+    }
+    var datosParaGraficar = new Object();
+    var etiquetas = [];
+    var items = [];
+    for(var j = 0; j < aportaciones.length; j++){
+        var aportacion = aportaciones[ j ];
+        if( aportacion == null ){
+            continue;
+        }
+        if( idIntegrante == aportacion.FkIntegrante ){
+            etiquetas.push( aportacion.FkIntegrante );
+        }else{
+            etiquetas.push( "" );
+        }
+        items.push( aportacion.Monto );
+    }
+    datosParaGraficar.etiquetas = etiquetas;
+    datosParaGraficar.serie1 = items;
+    return datosParaGraficar;
 }
 
 function obtenerDatosParaGraficar(itemAportacion, aportaciones){
@@ -399,12 +447,35 @@ function graficar(datosParaGraficar){
     lineChartData.datasets[0].data = datosParaGraficar.serie1;
     lineChartData.datasets[1].data = datosParaGraficar.serie2;
     
-    mostrarGrafico();
+    mostrarSeccion("divGrafico");
     if( chart == null ){           
         var ctx = document.getElementById("grafico").getContext("2d");
         chart = new Chart(ctx).Line(lineChartData,{responsive:true});
     }
 }
+
+function graficarComparativo(datosParaGraficar){    
+    var barChartData = {
+        datasets : [            
+            {
+                label: "Aportaciones",
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,0.8)",
+                highlightFill: "rgba(151,187,205,0.75)",
+                highlightStroke: "rgba(151,187,205,1)"
+            }
+        ]
+    }
+    barChartData.labels = datosParaGraficar.etiquetas;
+    barChartData.datasets[0].data = datosParaGraficar.serie1;    
+    
+    mostrarSeccion("divGraficoComparativo");
+    if( chart == null ){
+        var ctx = document.getElementById("graficoComparativo").getContext("2d");
+        chart = new Chart(ctx).Bar(barChartData,{responsive:true});
+    }
+}
+
 
 function graficarGeneral(datosParaGraficar){    
     var lineChartData = {
@@ -434,29 +505,27 @@ function graficarGeneral(datosParaGraficar){
     lineChartData.datasets[0].data = datosParaGraficar.serie1;
     lineChartData.datasets[1].data = datosParaGraficar.serie2;
     
-    mostrarGraficoGeneral();
+    mostrarSeccion("divGraficoGeneral");
     if( chartGeneral == null ){           
         var ctx = document.getElementById("graficoGeneral").getContext("2d");
         chartGeneral = new Chart(ctx).Line(lineChartData,{responsive:true});
     }
 }
 
-function mostrarGrafico(){    
-    $( "#divGrafico" ).show();
+function ocultarTodo(){    
+    $( "#divGrafico" ).hide();
     $( "#divGraficoGeneral" ).hide();
+    $( "#divGraficoComparativo" ).hide();
     $( "#divTabla" ).hide(); 
 }
 
-function mostrarGraficoGeneral(){
-    $( "#divGrafico" ).hide();
-    $( "#divGraficoGeneral" ).show();
-    $( "#divTabla" ).hide(); 
+function mostrarTabla(){ 
+    mostrarSeccion("divTabla");
 }
 
-function mostrarTabla(){
-    $( "#divGrafico" ).hide();
-    $( "#divGraficoGeneral" ).hide();
-    $( "#divTabla" ).show(); 
+function mostrarSeccion(idSeccion){
+    ocultarTodo();
+    $( "#" + idSeccion ).show();
 }
 
 function crearFecha( fechaString ){
@@ -685,6 +754,21 @@ function invocarMostrarIntegranteItems(){
             }
         }
     });
+    // ir por los datos a la base de datos por el item aportacion comparativo
+    accion = "qgc";
+    $.ajax({
+        url: url,
+        data: { a: accion,
+                idItem: idItem },
+        success:function( resultado ){
+            if( validaExcepcion( resultado ) ){
+                mostrarMensajeExcepcion( resultado );    
+            }
+            if( item.Tipo == CONSTANTES.get("APORTACION") ){
+                colocarDatosItemAportacionComparativa(resultado);
+            }
+        }
+    });
 }
 
 function obtenerIDObjetoTablaAsociaciones(){
@@ -793,6 +877,20 @@ function colocarDatosItemAportacionGeneral(resultado){
         return false;
     }else{
         itemAportacionGeneral = resultadoObject;
+        return true;
+    }
+}
+
+function colocarDatosItemAportacionComparativa(resultado){    
+    var resultadoObject = JSON.parse( resultado );
+    if( resultadoObject == null || resultadoObject.length == 0 ){
+        mostrarMensaje("No existe elementos para mostrar.", "Aviso");
+        return false;
+    }else{         
+        datosGraficaComparativa = new Array();        
+        for(var i=0;i<resultadoObject.length;i++){
+            datosGraficaComparativa.push( JSON.parse( resultadoObject[i] ) );
+        }
         return true;
     }
 }

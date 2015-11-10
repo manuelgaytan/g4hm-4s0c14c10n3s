@@ -105,6 +105,43 @@ switch ( $_GET["a"] ){
         $itemAportacionGeneral->setMonto( $itemAportacionGeneral->getMonto() * $numIntegrantes );
         echo $itemAportacionGeneral->toJSON();        
     break;
+    case "qgc":
+        if( $_GET["idItem"] == null ){
+            throw new Exception("No esta definido el parametro 'idItem'");
+            return;
+        }
+        
+        $items = AportacionQuery::create()                    
+                    ->filterByFkItem($_GET["idItem"])
+                    ->orderByFkIntegrante()
+                    ->find();
+        if( !( $items == null ) ){
+            $aportaciones = array();           
+            $idIntegranteAnterior = null;
+            $idIntegranteActual = null;
+            $itemAportacion = null;
+            foreach ($items as $item) {                
+                $idIntegranteActual = $item->getFkIntegrante();
+                if( $idIntegranteAnterior == null || !($idIntegranteActual == $idIntegranteAnterior) ){                    
+                    if( !($idIntegranteAnterior == null) ){
+                        $aportaciones[] = $itemAportacion->toJSON();  
+                    }
+                    $itemAportacion = new Aportacion();
+                    $itemAportacion->setMonto( $item->getMonto() );
+                    $itemAportacion->setFkIntegrante( $item->getFkIntegrante() );
+                }else{                    
+                    $itemAportacion->setMonto( $itemAportacion->getMonto() + $item->getMonto() );
+                }
+                $idIntegranteAnterior = $idIntegranteActual;
+            }
+            if( !($idIntegranteAnterior == null) ){
+                $aportaciones[] = $itemAportacion->toJSON();  
+            }
+            echo json_encode( $aportaciones );
+        }else{
+            echo null;
+        }
+    break;
     case "u":
         // validar sesion
         require_once 'validarRootAdmin.php';
